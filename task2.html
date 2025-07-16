@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3-Chance Number Guesser</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000; /* Black background */
+      color: #fff;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .game-box {
+      background-color: #0a1f44; /* Deep blue */
+      padding: 30px;
+      max-width: 420px;
+      margin: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 140, 255, 0.5);
+    }
+
+    h1 {
+      color: #00aaff;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 80%;
+      margin-top: 15px;
+      border: none;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 25px;
+      background-color: #00aaff;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    #restartBtn {
+      display: none;
+      background-color: #1abc9c;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-box">
+    <h1>🎯 Welcome to the Random Number Guesser!</h1>
+    <p>Try to guess the number I'm thinking of (between 1 and 100)</p>
+    <p>💡 You have 3 chances!</p>
+
+    <input type="number" id="guess" min="1" max="100">
+    <br />
+    <button onclick="checkGuess()">Guess</button>
+
+    <p id="result"></p>
+    <button id="restartBtn" onclick="location.reload()">Restart</button>
+  </div>
+
+  <script>
+    const number = Math.floor(Math.random() * 100) + 1;
+    let attempts = 3;
+
+    function checkGuess() {
+      const userGuess = parseInt(document.getElementById("guess").value);
+      const result = document.getElementById("result");
+      const restartBtn = document.getElementById("restartBtn");
+
+      if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+        result.textContent = "⚠️ Please enter a number between 1 and 100.";
+        return;
+      }
+
+      attempts--;
+
+      if (userGuess === number) {
+        result.textContent = "🎉 Spot on! You're a mind reader!";
+        restartBtn.style.display = "inline-block";
+      } else if (attempts > 0) {
+        const phrase = userGuess < number
+          ? "📉 Hmm... think bigger!"
+          : "📈 Whoa! That's a bit too high!";
+        result.textContent = `❌ ${phrase} You have ${attempts} chance(s) left.`;
+      } else {
+        result.textContent = `😢 No more guesses! The number was ${number}.`;
+        restartBtn.style.display = "inline-block";
+      }
+    }
+  </script>
+</body>
+</html>
